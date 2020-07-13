@@ -6,7 +6,7 @@ buttonExit.action = () => ApiConnector.logout(() => {
 });
 
 ApiConnector.current((args) => {
-    if (args.success === true) {
+    if (args.success) {
         ProfileWidget.showProfile(args.data);
     } 
 });
@@ -14,7 +14,7 @@ ApiConnector.current((args) => {
 const currentRate = new RatesBoard();
 function rate() {
     ApiConnector.getStocks((args) => {
-        if (args.success === true) {
+        if (args.success) {
             currentRate.clearTable();
             currentRate.fillTable(args.data);
         }
@@ -25,7 +25,7 @@ setInterval(rate(), 60000);
 
 const money = new MoneyManager();
 money.addMoneyCallback = (data) => ApiConnector.addMoney(data, (responce) => {
-    if (responce.success === true) {
+    if (responce.success) {
         ProfileWidget.showProfile(responce.data);
         money.setMessage(false, "Баланс успешно пополнен!");
     } else {
@@ -34,7 +34,7 @@ money.addMoneyCallback = (data) => ApiConnector.addMoney(data, (responce) => {
 });
 
 money.conversionMoneyCallback = (data) => ApiConnector.convertMoney(data, (responce) => {
-    if (responce.success === true) {
+    if (responce.success) {
         ProfileWidget.showProfile(responce.data);
         money.setMessage(false, "Валюта успешно конвертирована!");
     } else {
@@ -43,7 +43,7 @@ money.conversionMoneyCallback = (data) => ApiConnector.convertMoney(data, (respo
 });
 
 money.sendMoneyCallback = (data) => ApiConnector.transferMoney(data, (responce) => {
-    if (responce.success === true) {
+    if (responce.success) {
         ProfileWidget.showProfile(responce.data);
         money.setMessage(false, "Валюта успешно переведена!");
     } else {
@@ -53,7 +53,7 @@ money.sendMoneyCallback = (data) => ApiConnector.transferMoney(data, (responce) 
 
 const favorites = new FavoritesWidget();
 ApiConnector.getFavorites((responce) => {
-    if (responce.success === true) {
+    if (responce.success) {
         favorites.clearTable();
         favorites.fillTable(responce.data);
         money.updateUsersList(responce.data);
@@ -61,7 +61,7 @@ ApiConnector.getFavorites((responce) => {
 });
 
 favorites.addUserCallback = (data) => ApiConnector.addUserToFavorites(data, (responce) => {
-    if (responce.success === true) {
+    if (responce.success) {
         favorites.clearTable();
         favorites.fillTable(responce.data);
         money.updateUsersList(responce.data);
@@ -72,7 +72,7 @@ favorites.addUserCallback = (data) => ApiConnector.addUserToFavorites(data, (res
 });
 
 favorites.removeUserCallback = (data) => ApiConnector.removeUserFromFavorites(data, (responce) => {
-    if (responce.success === true) {
+    if (responce.success) {
         favorites.clearTable();
         favorites.fillTable(responce.data);
         money.updateUsersList(responce.data);
